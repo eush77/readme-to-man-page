@@ -32,6 +32,59 @@ var descriptionText = function (ast, description) {
 };
 
 
+/**
+ * Mimics how mdast-man normalizes section depths and returns the depth value
+ * that new top-level sections (.SH) must be assigned to.
+ *
+ * Note: this is sensitive to other AST transformations that add or remove sections,
+ * particularly one with the depth of one.
+ */
+var topLevelSectionDepth = function (ast) {
+  var titleCount = 0;
+  var depth = 2;
+
+  mdAstVisit(ast, 'heading', function (node) {
+    if (node.depth == 1 && titleCount++) {
+      depth = 1;
+      return false;
+    }
+  });
+
+  return depth;
+};
+
+
+/**
+ * Move anything other than title string away from the NAME section.
+ */
+var createDescriptionSection = function (ast) {
+  var startNode;
+
+  if (!ast.children.length) {
+    return;
+  }
+  if (ast.children[0].type != 'heading') {
+    startNode = 0;
+  }
+  else if (ast.children.length >= 2 && ast.children[0].depth == 1 &&
+           ast.children[1].type != 'heading') {
+    startNode = 1;
+  }
+  else {
+    return;
+  }
+
+  ast.children.splice(startNode, 0, {
+    type: 'heading',
+    depth: topLevelSectionDepth(ast),
+    children: [{
+      type: 'text',
+      value: 'DESCRIPTION'
+    }]
+  });
+};
+
+
 module.exports = function (readme, opts) {
   if (typeof readme == 'object') {
     opts = readme;
@@ -54,6 +107,9 @@ module.exports = function (readme, opts) {
   if (opts.description) {
     opts.description = descriptionText(ast, opts.description);
   }
+
+  // Create DESCRIPTION section if needed.
+  createDescriptionSection(ast);
 
   var manmd = mdast().use(mdastMan, assign({}, opts, {
     section: 'npm',
