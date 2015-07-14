@@ -28,17 +28,19 @@ module.exports = function (readme, opts) {
         .use(mdastSqueezeParagraphs)
         .run(mdast.parse(readme));
 
-  // Replace the default description with the content of the first
-  // paragraph of readme body since they are often identical.
-  mdAstVisit(ast, 'paragraph', function (node, index, parent) {
-    var firstParagraph = mdAstToString(node);
-    var prefix = firstParagraph.slice(0, opts.description.length);
-    if (prefix.toLowerCase() == opts.description.toLowerCase()) {
-      opts.description = firstParagraph;
-      parent.children.splice(index, 1);
-    }
-    return false;
-  });
+  if (opts.description) {
+    // Try to replace the default description with the content of the first
+    // paragraph of readme body since they are often identical.
+    mdAstVisit(ast, 'paragraph', function (node, index, parent) {
+      var firstParagraph = mdAstToString(node);
+      var prefix = firstParagraph.slice(0, opts.description.length);
+      if (prefix.toLowerCase() == opts.description.toLowerCase()) {
+        opts.description = firstParagraph;
+        parent.children.splice(index, 1);
+      }
+      return false;
+    });
+  }
 
   var manmd = mdast().use(mdastMan, assign({}, opts, {
     section: 'npm',
