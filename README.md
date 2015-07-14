@@ -25,12 +25,18 @@ readmeToManPage(readme, pkg)
 
 `readme` defaults to `opts.readme`.
 
-Options:
+Other options:
 
 - `name`: package name.
 - `version`: package version.
 - `description`: package description.
 - `time`: readme date or string or object with `modified` field (as returned from the npm registry).
+
+## Related
+
+- Use [`man-pager`][man-pager] to display a man page in the terminal.
+
+[man-pager]: https://github.com/eush77/man-pager
 
 ## Install
 
