@@ -1,0 +1,40 @@
+{
+  "name": "readme-to-man-page",
+  "version": "0.0.0",
+  "description": "Convert package readme to a man page",
+  "author": "Eugene Sharygin <eush77@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "homepage": "https://github.com/eush77/readme-to-man-page",
+  "repository": "eush77/readme-to-man-page",
+  "bugs": {
+    "url": "https://github.com/eush77/readme-to-man-page/issues"
+  },
+  "keywords": [
+    "readme",
+    "man",
+    "page",
+    "manpage",
+    "markdown",
+    "convert",
+    "conversion",
+    "render",
+    "manual",
+    "troff",
+    "package"
+  ],
+  "dependencies": {
+    "got": "^3.3.0",
+    "mdast": "^0.26.2",
+    "mdast-man": "^0.4.1",
+    "mdast-squeeze-paragraphs": "^1.0.0",
+    "mdast-strip-badges": "^0.1.1",
+    "mdast-util-to-string": "^0.1.0",
+    "mdast-util-visit": "^0.1.1",
+    "npm-expansion": "^1.0.0",
+    "registry-url": "^3.0.3"
+  },
+  "devDependencies": {}
+}
