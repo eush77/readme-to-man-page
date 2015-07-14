@@ -11,6 +11,27 @@ var npmExpansion = require('npm-expansion'),
     mdAstToString = require('mdast-util-to-string');
 
 
+/**
+ * Find description in the first paragraph of the AST, return that and
+ * remove corresponding nodes from the AST.
+ *
+ * Return the original description if not found.
+ */
+var descriptionText = function (ast, description) {
+  mdAstVisit(ast, 'paragraph', function (node, index, parent) {
+    var firstParagraph = mdAstToString(node);
+    var prefix = firstParagraph.slice(0, description.length);
+    if (prefix.toLowerCase() == description.toLowerCase()) {
+      description = firstParagraph;
+      parent.children.splice(index, 1);
+    }
+    return false;
+  });
+
+  return description;
+};
+
+
 module.exports = function (readme, opts) {
   if (typeof readme == 'object') {
     opts = readme;
@@ -28,18 +49,10 @@ module.exports = function (readme, opts) {
         .use(mdastSqueezeParagraphs)
         .run(mdast.parse(readme));
 
+  // Try to replace the default description with the content of the first
+  // paragraph of readme body since they are often identical.
   if (opts.description) {
-    // Try to replace the default description with the content of the first
-    // paragraph of readme body since they are often identical.
-    mdAstVisit(ast, 'paragraph', function (node, index, parent) {
-      var firstParagraph = mdAstToString(node);
-      var prefix = firstParagraph.slice(0, opts.description.length);
-      if (prefix.toLowerCase() == opts.description.toLowerCase()) {
-        opts.description = firstParagraph;
-        parent.children.splice(index, 1);
-      }
-      return false;
-    });
+    opts.description = descriptionText(ast, opts.description);
   }
 
   var manmd = mdast().use(mdastMan, assign({}, opts, {
