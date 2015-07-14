@@ -26,7 +26,6 @@
     "package"
   ],
   "dependencies": {
-    "got": "^3.3.0",
     "mdast": "^0.26.2",
     "mdast-man": "^0.4.1",
     "mdast-squeeze-paragraphs": "^1.0.0",
@@ -34,7 +33,7 @@
     "mdast-util-to-string": "^0.1.0",
     "mdast-util-visit": "^0.1.1",
     "npm-expansion": "^1.0.0",
-    "registry-url": "^3.0.3"
+    "object.assign": "^3.0.1"
   },
   "devDependencies": {}
 }
