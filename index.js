@@ -8,7 +8,8 @@ var npmExpansion = require('npm-expansion'),
     mdastStripBadges = require('mdast-strip-badges'),
     mdastSqueezeParagraphs = require('mdast-squeeze-paragraphs'),
     mdAstVisit = require('mdast-util-visit'),
-    mdAstToString = require('mdast-util-to-string');
+    mdAstToString = require('mdast-util-to-string'),
+    mdAstNormalizeHeadings = require('mdast-normalize-headings');
 
 
 /**
@@ -33,28 +34,6 @@ var descriptionText = function (ast, description) {
 
 
 /**
- * Mimics how mdast-man normalizes section depths and returns the depth value
- * that new top-level sections (.SH) must be assigned to.
- *
- * Note: this is sensitive to other AST transformations that add or remove sections,
- * particularly one with the depth of one.
- */
-var topLevelSectionDepth = function (ast) {
-  var titleCount = 0;
-  var depth = 2;
-
-  mdAstVisit(ast, 'heading', function (node) {
-    if (node.depth == 1 && titleCount++) {
-      depth = 1;
-      return false;
-    }
-  });
-
-  return depth;
-};
-
-
-/**
  * Move anything other than title string away from the NAME section.
  */
 var createDescriptionSection = function (ast) {
@@ -74,9 +53,9 @@ var createDescriptionSection = function (ast) {
     return;
   }
 
-  ast.children.splice(startNode, 0, {
+  mdAstNormalizeHeadings(ast).children.splice(startNode, 0, {
     type: 'heading',
-    depth: topLevelSectionDepth(ast),
+    depth: 2,
     children: [{
       type: 'text',
       value: 'DESCRIPTION'
