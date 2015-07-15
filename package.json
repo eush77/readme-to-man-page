@@ -1,6 +1,6 @@
 {
   "name": "readme-to-man-page",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Convert package readme to a man page",
   "author": "Eugene Sharygin <eush77@gmail.com>",
   "license": "MIT",
