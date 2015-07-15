@@ -45,9 +45,16 @@ var createDescriptionSection = function (ast) {
   if (ast.children[0].type != 'heading') {
     startNode = 0;
   }
-  else if (ast.children.length >= 2 && ast.children[0].depth == 1 &&
-           ast.children[1].type != 'heading') {
+  else if (ast.children[0].depth == 1 && ast.children.length >= 2) {
     startNode = 1;
+
+    // Skip definitions.
+    while (ast.children[startNode].type == 'definition') {
+      if (++startNode == ast.children.length ||
+          ast.children[startNode].type == 'heading') {
+        return;
+      }
+    }
   }
   else {
     return;
