@@ -78,10 +78,7 @@ module.exports = function (readme, opts) {
   }
 
   opts = opts || {};
-
-  if (opts.time && opts.time.modified) {
-    opts.time = opts.time.modified;
-  }
+  opts.date = opts.time && opts.time.modified ? opts.time.modified : opts.time;
 
   var ast = mdast()
         .use(mdastStripBadges)
@@ -97,7 +94,7 @@ module.exports = function (readme, opts) {
   // Create DESCRIPTION section if needed.
   createDescriptionSection(ast);
 
-  var manmd = mdast().use(mdastMan, assign({}, opts, {
+  var manmd = mdast().use(mdastMan, assign(opts, {
     section: 'npm',
     manual: npmExpansion()
   }));
