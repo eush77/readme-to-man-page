@@ -2,6 +2,7 @@
 
 var npmExpansion = require('npm-expansion'),
     assign = require('object.assign'),
+    semverMax = require('semver-max'),
     mdast = require('mdast'),
     mdastFile = require('mdast/lib/file'),
     mdastMan = require('mdast-man'),
@@ -71,14 +72,40 @@ var createDescriptionSection = function (ast) {
 };
 
 
+var normalize = {
+  date: function (opts) {
+    return opts.time && opts.time.modified ? opts.time.modified : opts.time;
+  },
+  version: function (opts) {
+    if (opts.version) {
+      return opts.version;
+    }
+    else if (opts.versions) {
+      if (!Array.isArray(opts.versions)) {
+        opts.versions = Object.keys(opts.versions);
+      }
+      return opts.versions.reduce(semverMax);
+    }
+  }
+};
+
+
+var normalizeOptions = function (opts) {
+  opts = opts || {};
+  Object.keys(normalize).forEach(function (key) {
+    opts[key] = normalize[key](opts);
+  });
+  return opts;
+};
+
+
 module.exports = function (readme, opts) {
   if (typeof readme == 'object') {
     opts = readme;
     readme = opts.readme;
   }
 
-  opts = opts || {};
-  opts.date = opts.time && opts.time.modified ? opts.time.modified : opts.time;
+  opts = normalizeOptions(opts);
 
   var ast = mdast()
         .use(mdastStripBadges)
