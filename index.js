@@ -38,30 +38,32 @@ var descriptionText = function (ast, description) {
  * Move anything other than title string away from the NAME section.
  */
 var createDescriptionSection = function (ast) {
-  var startNode;
+  var startIndex;
 
   if (!ast.children.length) {
     return;
   }
   if (ast.children[0].type != 'heading') {
-    startNode = 0;
+    startIndex = 0;
   }
   else if (ast.children[0].depth == 1 && ast.children.length >= 2) {
-    startNode = 1;
+    startIndex = 1;
+    var startNode = ast.children[startIndex];
 
     // Skip definitions.
-    while (ast.children[startNode].type == 'definition') {
-      if (++startNode == ast.children.length ||
-          ast.children[startNode].type == 'heading') {
-        return;
-      }
+    while (startNode && startNode.type == 'definition') {
+      startNode = ast.children[++startIndex];
+    }
+
+    if (!startNode || startNode.type == 'heading') {
+      return;
     }
   }
   else {
     return;
   }
 
-  mdAstNormalizeHeadings(ast).children.splice(startNode, 0, {
+  mdAstNormalizeHeadings(ast).children.splice(startIndex, 0, {
     type: 'heading',
     depth: 2,
     children: [{
