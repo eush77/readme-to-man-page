@@ -37,7 +37,7 @@ var descriptionText = function (ast, description) {
 /**
  * Move anything other than title string away from the NAME section.
  */
-var createDescriptionSection = function (ast) {
+var createDescriptionSection = function (ast, skippedTypes) {
   var startIndex;
 
   if (!ast.children.length) {
@@ -50,8 +50,7 @@ var createDescriptionSection = function (ast) {
     startIndex = 1;
     var startNode = ast.children[startIndex];
 
-    // Skip definitions.
-    while (startNode && startNode.type == 'definition') {
+    while (startNode && skippedTypes.indexOf(startNode.type) >= 0) {
       startNode = ast.children[++startIndex];
     }
 
@@ -121,7 +120,8 @@ module.exports = function (readme, opts) {
   }
 
   // Create DESCRIPTION section if needed.
-  createDescriptionSection(ast);
+  // Skip definitions and HTML nodes.
+  createDescriptionSection(ast, ['definition', 'html']);
 
   var manmd = mdast().use(mdastMan, assign(opts, {
     section: 'npm',
