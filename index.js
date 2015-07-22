@@ -110,7 +110,7 @@ module.exports = function (readme, opts) {
   var ast = mdast()
         .use(mdastStripBadges)
         .use(mdastSqueezeParagraphs)
-        .run(mdast.parse(readme));
+        .run(mdast.parse(readme, { position: false }));
 
   // Try to replace the default description with the content of the first
   // paragraph of readme body since they are often identical.
