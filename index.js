@@ -8,9 +8,8 @@ var npmExpansion = require('npm-expansion'),
     mdastMan = require('mdast-man'),
     mdastStripBadges = require('mdast-strip-badges'),
     mdastSqueezeParagraphs = require('mdast-squeeze-paragraphs/plugin'),
-    mdAstVisit = require('mdast-util-visit'),
-    mdAstToString = require('mdast-util-to-string'),
-    mdAstNormalizeHeadings = require('mdast-normalize-headings');
+    mdastNormalizeHeadings = require('mdast-normalize-headings/plugin'),
+    mdAstToString = require('mdast-util-to-string');
 
 
 /**
@@ -20,14 +19,18 @@ var npmExpansion = require('npm-expansion'),
  * Return the original description if not found.
  */
 var descriptionText = function (ast, description) {
-  mdAstVisit(ast, 'paragraph', function (node, index, parent) {
-    var firstParagraph = mdAstToString(node);
-    var prefix = firstParagraph.slice(0, description.length);
-    if (prefix.toLowerCase() == description.toLowerCase()) {
-      description = firstParagraph;
-      parent.children.splice(index, 1);
+  ast.children.some(function (node, index) {
+    if (node.type == 'heading' && node.depth > 1) {
+      return true;
     }
-    return false;
+
+    var text = mdAstToString(node);
+    var prefix = text.slice(0, description.length);
+    if (prefix.toLowerCase() == description.toLowerCase()) {
+      description = text;
+      ast.children.splice(index, 1);
+      return true;
+    }
   });
 
   return description;
@@ -62,7 +65,7 @@ var createDescriptionSection = function (ast, skippedTypes) {
     return;
   }
 
-  mdAstNormalizeHeadings(ast).children.splice(startIndex, 0, {
+  ast.children.splice(startIndex, 0, {
     type: 'heading',
     depth: 2,
     children: [{
@@ -111,6 +114,7 @@ module.exports = function (readme, opts) {
   var ast = mdast()
         .use(mdastStripBadges)
         .use(mdastSqueezeParagraphs)
+        .use(mdastNormalizeHeadings)
         .run(mdast.parse(readme, { position: false }));
 
   // Try to replace the default description with the content of the first
