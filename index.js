@@ -73,6 +73,13 @@ var createDescriptionSection = function (ast, skippedTypes) {
 };
 
 
+var addAuthorSection = function (ast, pkg) {
+  var hasAuthor = ast.children.some(function (node) {
+    var text = mdAstToString(node).toLowerCase();
+    return node.type == 'heading' && /author/.test(
+};
+
+
 var normalize = {
   date: function (opts) {
     return opts.time && opts.time.modified ? opts.time.modified : opts.time;
@@ -122,6 +129,9 @@ module.exports = function (readme, opts) {
   // Create DESCRIPTION section if needed.
   // Skip definitions and HTML nodes.
   createDescriptionSection(ast, ['definition', 'html']);
+
+  // Add AUTHOR section unless it exists.
+  addAuthorSection(ast, opts);
 
   var manmd = mdast().use(mdastMan, assign(opts, {
     section: 'npm',
