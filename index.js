@@ -1,7 +1,6 @@
 'use strict';
 
-var npmExpansion = require('npm-expansion'),
-    assign = require('object.assign'),
+var assign = require('object.assign'),
     semverMax = require('semver-max'),
     mdast = require('mdast'),
     mdastFile = require('mdast/lib/file'),
@@ -128,8 +127,8 @@ module.exports = function (readme, opts) {
   createDescriptionSection(ast, ['definition', 'html']);
 
   var manmd = mdast().use(mdastMan, assign(opts, {
-    section: 'npm',
-    manual: npmExpansion()
+    section: opts.section,
+    manual: opts.manual
   }));
 
   // mdast-man captures some settings on the File object.

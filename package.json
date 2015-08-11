@@ -13,17 +13,17 @@
     "url": "https://github.com/eush77/readme-to-man-page/issues"
   },
   "keywords": [
-    "readme",
-    "man",
-    "page",
-    "manpage",
-    "markdown",
-    "convert",
     "conversion",
-    "render",
+    "convert",
+    "man",
+    "manpage",
     "manual",
-    "troff",
-    "package"
+    "markdown",
+    "package",
+    "page",
+    "readme",
+    "render",
+    "troff"
   ],
   "dependencies": {
     "mdast": "^0.26.2",
@@ -32,7 +32,6 @@
     "mdast-squeeze-paragraphs": "^2.1.0",
     "mdast-strip-badges": "^0.2.1",
     "mdast-util-to-string": "^0.1.0",
-    "npm-expansion": "^1.0.0",
     "object.assign": "^3.0.1",
     "semver-max": "^1.0.0"
   },

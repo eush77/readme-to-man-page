@@ -32,6 +32,8 @@ Other options:
 - `versions`: array of versions or object with version keys (`{ "1.0.0": ..., "2.0.0": ...}`), the maximum version is selected. This is the alternative option to `version` (single). You should not specify both.
 - `description`: package description.
 - `time`: readme date or string or object with `modified` field (as returned from the npm registry).
+- `section`: section code (e.g. `1`).
+- `manual`: full section name (e.g. `Linux Programmer's Manual`).
 
 You should be able to just pass the `package.json` file or JSON returned from  `registry.npmjs.com`.
 
