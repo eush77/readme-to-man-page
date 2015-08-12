@@ -74,6 +74,39 @@ test('section NAME', function (t) {
 });
 
 
+test('section DESCRIPTION', function (t) {
+  var man, index;
+
+  man = manLines('# module\n\nTest module\n\n## rest');
+  index = man.indexOf(macro('sh', 'NAME')) + 1;
+  t.deepEqual(man.slice(index, index + 4), [
+    nameSection(info.name),
+    macro('sh', 'DESCRIPTION'),
+    macro('p'),
+    'Test module'
+  ], 'creates new section if there\'s no description');
+
+  man = manLines('# module\n\nTest module\n\nMore info\n\n## rest', info);
+  index = man.indexOf(macro('sh', 'NAME')) + 1;
+  t.deepEqual(man.slice(index, index + 5), [
+    nameSection(info.name, info.description),
+    macro('sh', 'DESCRIPTION'),
+    macro('p'),
+    'More info',
+    macro('sh', 'REST')
+  ], 'creates a new section if description is more than one paragraph');
+
+  man = manLines('# module\n\nTest module. Built for _tests_.\n\n## rest', info);
+  index = man.indexOf(macro('sh', 'NAME')) + 1;
+  t.deepEqual(man.slice(index, index + 4), [
+    nameSection(info.name, 'Test module. Built for tests.'),
+    macro('sh', 'REST')
+  ], 'does not create a new section if description is moved');
+
+  t.end();
+});
+
+
 function manLines (readme, opts) {
   return readmeToManPage(readme, opts)
     .split('\n')
