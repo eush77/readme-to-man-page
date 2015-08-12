@@ -1,8 +1,6 @@
 'use strict';
 
-var assign = require('object.assign'),
-    semverMax = require('semver-max'),
-    mdast = require('mdast'),
+var mdast = require('mdast'),
     mdastFile = require('mdast/lib/file'),
     mdastMan = require('mdast-man'),
     mdastStripBadges = require('mdast-strip-badges'),
@@ -75,40 +73,8 @@ var createDescriptionSection = function (ast, skippedTypes) {
 };
 
 
-var normalize = {
-  date: function (opts) {
-    return opts.time && opts.time.modified ? opts.time.modified : opts.time;
-  },
-  version: function (opts) {
-    if (opts.version) {
-      return opts.version;
-    }
-    else if (opts.versions) {
-      if (!Array.isArray(opts.versions)) {
-        opts.versions = Object.keys(opts.versions);
-      }
-      return opts.versions.reduce(semverMax);
-    }
-  }
-};
-
-
-var normalizeOptions = function (opts) {
-  opts = opts || {};
-  Object.keys(normalize).forEach(function (key) {
-    opts[key] = normalize[key](opts);
-  });
-  return opts;
-};
-
-
 module.exports = function (readme, opts) {
-  if (typeof readme == 'object') {
-    opts = readme;
-    readme = opts.readme;
-  }
-
-  opts = normalizeOptions(opts);
+  opts = opts || {};
 
   var ast = mdast()
         .use(mdastStripBadges)
@@ -126,10 +92,7 @@ module.exports = function (readme, opts) {
   // Skip definitions and HTML nodes.
   createDescriptionSection(ast, ['definition', 'html']);
 
-  var manmd = mdast().use(mdastMan, assign(opts, {
-    section: opts.section,
-    manual: opts.manual
-  }));
+  var manmd = mdast().use(mdastMan, opts);
 
   // mdast-man captures some settings on the File object.
   var file = mdastFile();

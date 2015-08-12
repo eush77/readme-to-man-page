@@ -12,35 +12,71 @@ Turn Markdown readme to a good-looking man page.
 ## Example
 
 ```js
-var readme = fs.readFileSync('./README.md', { encoding: 'utf8' });
+var readme = fs.readFileSync('./README.md', 'utf8');
 var pkg = require('./package');
 
-readmeToManPage(readme, pkg)
-//=> '.TH "README-TO-MAN-PAGE" "npm" "July 2015" "0.1.2" "Nutty Programming Men"\n.SH "NAME"\n\\f...'
+readmeToManPage(readme, {
+  name: pkg.name,
+  version: pkg.version,
+  description: pkg.description,
+  section: 'npm',
+  manual: 'Node Package Manager'
+})
+//=> '.TH "README-TO-MAN-PAGE" "npm" "July 2015" "0.1.2" "Node Package Manager"\n.SH "NAME"\n\\f...'
 ```
 
 ## API
 
-#### `readmeToManPage([readme], [opts])`
+### `readmeToManPage(readme, [opts])`
 
-`readme` defaults to `opts.readme`.
+Returns man page as a string marked up in roff.
 
-Other options:
+#### `readme`
 
-- `name`: package name.
-- `version`: package version.
-- `versions`: array of versions or object with version keys (`{ "1.0.0": ..., "2.0.0": ...}`), the maximum version is selected. This is the alternative option to `version` (single). You should not specify both.
-- `description`: package description.
-- `time`: readme date or string or object with `modified` field (as returned from the npm registry).
-- `section`: section code (e.g. `1`).
-- `manual`: full section name (e.g. `Linux Programmer's Manual`).
+Type: `String` <br>
 
-You should be able to just pass the `package.json` file or JSON returned from  `registry.npmjs.com`.
+Readme text in Markdown.
+
+#### Options
+
+<dl>
+<dt><code>name</code></dt>
+<dd>
+Package name.
+</dd>
+
+<dt><code>version</code></dt>
+<dd>
+Package version.
+</dd>
+
+<dt><code>description</code></dt>
+<dd>
+Package description.
+</dd>
+
+<dt><code>time</code></dt>
+<dd>
+Latest revision date.
+</dd>
+
+<dt><code>section</code></dt>
+<dd>
+Section code (e.g. `1`).
+</dd>
+
+<dt><code>manual</code></dt>
+<dd>
+Full section name (e.g. `Linux Programmer's Manual`).
+</dd>
+</dl>
 
 ## Related
 
-- Use [`man-pager`][man-pager] to display a man page in the terminal.
+- [npm-man] — open any package readme from npm as a man page.
+- Use [`man-pager`][man-pager] to display a man page in the terminal programmatically.
 
+[npm-man]: https://github.com/eush77/npm-man
 [man-pager]: https://github.com/eush77/man-pager
 
 ## Install

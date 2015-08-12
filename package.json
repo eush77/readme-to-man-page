@@ -31,9 +31,7 @@
     "mdast-normalize-headings": "^0.1.0",
     "mdast-squeeze-paragraphs": "^2.1.0",
     "mdast-strip-badges": "^0.2.1",
-    "mdast-util-to-string": "^0.1.0",
-    "object.assign": "^3.0.1",
-    "semver-max": "^1.0.0"
+    "mdast-util-to-string": "^0.1.0"
   },
   "devDependencies": {}
 }
