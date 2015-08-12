@@ -8,8 +8,7 @@
     "test": "tape test/*.js"
   },
   "files": [
-    "index.js",
-    "lib/"
+    "index.js"
   ],
   "homepage": "https://github.com/eush77/readme-to-man-page",
   "repository": "eush77/readme-to-man-page",

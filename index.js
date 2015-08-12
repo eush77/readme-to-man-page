@@ -1,7 +1,5 @@
 'use strict';
 
-var postprocess = require('./lib/postprocess');
-
 var mdast = require('mdast'),
     vfile = require('vfile'),
     mdastMan = require('mdast-man'),
@@ -120,6 +118,5 @@ module.exports = function (readme, opts) {
 
   // mdast-man captures some settings on the File object.
   var file = vfile();
-  var man = manmd.stringify(manmd.run(ast, file), file, {});
-  return postprocess(man, opts);
+  return manmd.stringify(manmd.run(ast, file), file, {});
 };

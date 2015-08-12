@@ -1,7 +1,7 @@
 'use strict';
 
 var readmeToManPage = require('..'),
-    macro = require('../lib/macro');
+    macro = require('./lib/macro');
 
 var test = require('tape'),
     assign = require('object.assign'),
@@ -66,7 +66,7 @@ test('section NAME', function (t) {
 
   man = manLines('# bla\n\ntext', { name: info.name });
   t.equal(man[man.indexOf(macro('sh', 'NAME')) + 1],
-          nameSection(info.name),
+          nameSection(info.name, 'bla'),
           'only name');
 
   t.end();
@@ -79,7 +79,7 @@ test('section DESCRIPTION', function (t) {
   man = manLines('# module\n\nTest module\n\n## rest');
   index = man.indexOf(macro('sh', 'NAME')) + 1;
   t.deepEqual(man.slice(index, index + 4), [
-    nameSection(info.name),
+    nameSection(info.name, info.name),
     macro('sh', 'DESCRIPTION'),
     macro('p'),
     'Test module'
