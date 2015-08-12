@@ -5,7 +5,8 @@ var readmeToManPage = require('..');
 var test = require('tape'),
     assign = require('object.assign'),
     months = require('months'),
-    mdast = require('mdast');
+    mdast = require('mdast'),
+    escapeRegExp = require('escape-string-regexp');
 
 var fs = require('fs');
 
@@ -21,19 +22,13 @@ var info = {
 
 
 test('metadata', function (t) {
-  var infoMan = manLines('', info);
-  t.equal(infoMan[0], mainHeader(assign({}, info, {
+  t.equal(manLines('', info)[0], mainHeader(assign({}, info, {
     date: 'September 2010'
   })), 'main header');
-  t.equal(infoMan[1], macro('sh', 'NAME'), 'section NAME');
-  t.equal(infoMan[2], nameSection(info), 'content of section NAME');
 
-  var plainMan = manLines('text');
-  t.equal(plainMan[0], mainHeader({
+  t.equal(manLines('text')[0], mainHeader({
     date: months[new Date().getMonth()] + ' ' + new Date().getFullYear()
-  }), 'no options - main header');
-  t.equal(plainMan[1].split(' ')[0], macro('sh'),
-          'no options - some section follows');
+  }), 'default main header');
 
   t.end();
 });
@@ -57,6 +52,23 @@ test('inferred name', function (t) {
   t.deepEqual(manLines(readme, { description: 'Test module' }),
               manLines(readme, { name: 'module', description: 'Test module' }),
               'name inferred from headings, with description');
+  t.end();
+});
+
+
+test('section NAME', function (t) {
+  var man;
+
+  man = manLines('text', info);
+  t.equal(man[seek(man, macro('sh', 'NAME')) + 1],
+          nameSection(info.name, info.description),
+          'both name, description');
+
+  man = manLines('text', { name: info.name });
+  t.equal(man[seek(man, macro('sh', 'NAME')) + 1],
+          nameSection(info.name),
+          'only name');
+
   t.end();
 });
 
@@ -86,8 +98,22 @@ function mainHeader (info) {
 }
 
 
-function nameSection (info) {
-  return '\\fB' + info.name + '\\fR - ' + info.description;
+function nameSection (name, description) {
+  name = '\\fB' + info.name + '\\fR';
+  description = description ? ' - ' + description : '';
+  return name + description;
 }
 
 
+function seek (man, needle) {
+  if (!needle.test) {
+    needle = RegExp('^' + escapeRegExp(needle) + '$');
+  }
+
+  for (var index = 0; index < man.length; ++index) {
+    if (needle.test(man[index])) {
+      break;
+    }
+  }
+  return index;
+}

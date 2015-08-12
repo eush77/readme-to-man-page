@@ -37,6 +37,7 @@
     "mdast-util-to-string": "^0.1.0"
   },
   "devDependencies": {
+    "escape-string-regexp": "^1.0.3",
     "months": "^1.0.0",
     "object.assign": "^3.0.1",
     "tape": "^4.0.3"
