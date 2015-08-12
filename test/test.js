@@ -3,10 +3,18 @@
 var readmeToManPage = require('..');
 
 var test = require('tape'),
-    Test = test.Test,
-    assign = require('object.assign');
+    assign = require('object.assign'),
+    months = require('months');
 
 var fs = require('fs');
+
+
+var manLines = function (readme, opts) {
+  return readmeToManPage(readme, opts)
+    .split('\n')
+    .map(Function.call.bind(''.trim))
+    .filter(Boolean);
+};
 
 
 var macro = function (name /* values */) {
@@ -19,16 +27,7 @@ var macro = function (name /* values */) {
 };
 
 
-Test.prototype.assertMetadata = function (man, info) {
-  var lines = man.split('\n');
-  this.equal(lines[0], macro('th', info.name.toUpperCase(), info.section,
-                             info.date, info.version, info.manual));
-  this.equal(lines[1], macro('sh', 'NAME'));
-  this.equal(lines[2], '\\fB' + info.name + '\\fR - ' + info.description);
-};
-
-
-test(function (t) {
+test('metadata', function (t) {
   var info = {
     name: 'module',
     version: '1.0.0',
@@ -38,10 +37,27 @@ test(function (t) {
     manual: 'Test Manual'
   };
 
-  var man = readmeToManPage('', info);
-  t.assertMetadata(man, assign({}, info, {
+  var infoMan = manLines('', info);
+  assertMainHeader(infoMan[0], assign({}, info, {
     date: 'September 2010'
-  }));
+  }), 'main header');
+  t.equal(infoMan[1], macro('sh', 'NAME'), 'section NAME');
+  t.equal(infoMan[2], '\\fB' + info.name + '\\fR - ' + info.description,
+          'section NAME');
+
+  var plainMan = manLines('text');
+  assertMainHeader(plainMan[0], {
+    date: months[new Date().getMonth()] + ' ' + new Date().getFullYear()
+  }, 'no options - main header');
+  t.equal(plainMan[1].split(' ')[0], macro('sh'),
+          'no options - some section follows');
 
   t.end();
+
+  function assertMainHeader (line, info, message) {
+    t.equal(line, macro('th', (info.name || '').toUpperCase(),
+                        (info.section || ''), (info.date || ''),
+                        (info.version || ''), (info.manual || '')),
+            message);
+  }
 });
