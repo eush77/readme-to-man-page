@@ -8,7 +8,8 @@
     "test": "tape test/*.js"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "lib/"
   ],
   "homepage": "https://github.com/eush77/readme-to-man-page",
   "repository": "eush77/readme-to-man-page",
@@ -18,6 +19,8 @@
   "keywords": [
     "conversion",
     "convert",
+    "groff",
+    "help",
     "man",
     "manpage",
     "manual",
@@ -26,7 +29,9 @@
     "page",
     "readme",
     "render",
-    "troff"
+    "roff",
+    "troff",
+    "unix"
   ],
   "dependencies": {
     "mdast": "^0.26.2",
@@ -37,7 +42,6 @@
     "mdast-util-to-string": "^0.1.0"
   },
   "devDependencies": {
-    "escape-string-regexp": "^1.0.3",
     "months": "^1.0.0",
     "object.assign": "^3.0.1",
     "tape": "^4.0.3"

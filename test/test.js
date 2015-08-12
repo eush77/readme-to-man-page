@@ -6,8 +6,7 @@ var readmeToManPage = require('..'),
 var test = require('tape'),
     assign = require('object.assign'),
     months = require('months'),
-    mdast = require('mdast'),
-    escapeRegExp = require('escape-string-regexp');
+    mdast = require('mdast');
 
 var fs = require('fs');
 
