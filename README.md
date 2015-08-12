@@ -7,7 +7,7 @@
 Turn Markdown readme to a good-looking man page.
 
 [travis]: https://travis-ci.org/eush77/readme-to-man-page
-[travis-badge]: https://travis-ci.org/eush77/readme-to-man-page.svg
+[travis-badge]: https://travis-ci.org/eush77/readme-to-man-page.svg?branch=master
 [david]: https://david-dm.org/eush77/readme-to-man-page
 [david-badge]: https://david-dm.org/eush77/readme-to-man-page.png
 
