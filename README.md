@@ -41,37 +41,14 @@ Readme text in Markdown.
 
 #### Options
 
-<dl>
-<dt><code>name</code></dt>
-<dd>
-Package name.
-</dd>
+No option is required. But the more options are set, the more pleasing the output will be.
 
-<dt><code>version</code></dt>
-<dd>
-Package version.
-</dd>
-
-<dt><code>description</code></dt>
-<dd>
-Package description.
-</dd>
-
-<dt><code>date</code></dt>
-<dd>
-Latest revision date.
-</dd>
-
-<dt><code>section</code></dt>
-<dd>
-Section code (e.g. `1`).
-</dd>
-
-<dt><code>manual</code></dt>
-<dd>
-Full section name (e.g. `Linux Programmer's Manual`).
-</dd>
-</dl>
+- `name` — can be inferred from headings.
+- `version`
+- `description`
+- `date` — latest revision date, passed to `Date` constructor.
+- `section` — section code (e.g. `1`).
+- `manual` — full section name (e.g. `Linux Programmer's Manual`).
 
 ## Related
 

@@ -6,7 +6,24 @@ var mdast = require('mdast'),
     mdastStripBadges = require('mdast-strip-badges'),
     mdastSqueezeParagraphs = require('mdast-squeeze-paragraphs'),
     mdastNormalizeHeadings = require('mdast-normalize-headings'),
-    mdAstToString = require('mdast-util-to-string');
+    mdastToString = require('mdast-util-to-string');
+
+
+/**
+ * Infer name from the top-level heading.
+ */
+var inferName = function (ast) {
+  var inferredName;
+
+  ast.children.some(function (node) {
+    if (node.type == 'heading' && node.depth == 1) {
+      inferredName = mdastToString(node);
+      return true;
+    }
+  });
+
+  return inferredName;
+};
 
 
 /**
@@ -21,7 +38,7 @@ var descriptionText = function (ast, description) {
       return true;
     }
 
-    var text = mdAstToString(node);
+    var text = mdastToString(node);
     var prefix = text.slice(0, description.length);
     if (prefix.toLowerCase() == description.toLowerCase()) {
       description = text;
@@ -81,6 +98,10 @@ module.exports = function (readme, opts) {
         .use(mdastSqueezeParagraphs)
         .use(mdastNormalizeHeadings)
         .run(mdast.parse(readme, { position: false }));
+
+  if (!opts.name) {
+    opts.name = inferName(ast);
+  }
 
   // Try to replace the default description with the content of the first
   // paragraph of readme body since they are often identical.
