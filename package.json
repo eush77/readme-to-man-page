@@ -34,12 +34,13 @@
     "unix"
   ],
   "dependencies": {
-    "mdast": "^0.26.2",
+    "mdast": "^1.0.0",
     "mdast-man": "^0.5.1",
     "mdast-normalize-headings": "^0.2.0",
     "mdast-squeeze-paragraphs": "^1.1.0",
     "mdast-strip-badges": "^0.2.1",
-    "mdast-util-to-string": "^0.1.0"
+    "mdast-util-to-string": "^0.1.0",
+    "vfile": "^1.0.0"
   },
   "devDependencies": {
     "months": "^1.0.0",

@@ -3,7 +3,7 @@
 var postprocess = require('./lib/postprocess');
 
 var mdast = require('mdast'),
-    mdastFile = require('mdast/lib/file'),
+    vfile = require('vfile'),
     mdastMan = require('mdast-man'),
     mdastStripBadges = require('mdast-strip-badges'),
     mdastSqueezeParagraphs = require('mdast-squeeze-paragraphs'),
@@ -119,7 +119,7 @@ module.exports = function (readme, opts) {
   var manmd = mdast().use(mdastMan, opts);
 
   // mdast-man captures some settings on the File object.
-  var file = mdastFile();
+  var file = vfile();
   var man = manmd.stringify(manmd.run(ast, file), file, {});
   return postprocess(man, opts);
 };
