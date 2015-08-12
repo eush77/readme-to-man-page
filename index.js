@@ -1,5 +1,7 @@
 'use strict';
 
+var postprocess = require('./lib/postprocess');
+
 var mdast = require('mdast'),
     mdastFile = require('mdast/lib/file'),
     mdastMan = require('mdast-man'),
@@ -99,6 +101,7 @@ module.exports = function (readme, opts) {
         .use(mdastNormalizeHeadings)
         .run(mdast.parse(readme, { position: false }));
 
+  // Infer name from headings.
   if (!opts.name) {
     opts.name = inferName(ast);
   }
@@ -117,5 +120,6 @@ module.exports = function (readme, opts) {
 
   // mdast-man captures some settings on the File object.
   var file = mdastFile();
-  return manmd.stringify(manmd.run(ast, file), file, {});
+  var man = manmd.stringify(manmd.run(ast, file), file, {});
+  return postprocess(man, opts);
 };

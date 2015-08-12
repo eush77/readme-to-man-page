@@ -1,6 +1,7 @@
 'use strict';
 
-var readmeToManPage = require('..');
+var readmeToManPage = require('..'),
+    macro = require('../lib/macro');
 
 var test = require('tape'),
     assign = require('object.assign'),
@@ -59,13 +60,13 @@ test('inferred name', function (t) {
 test('section NAME', function (t) {
   var man;
 
-  man = manLines('text', info);
-  t.equal(man[seek(man, macro('sh', 'NAME')) + 1],
+  man = manLines('# bla\n\ntext', info);
+  t.equal(man[man.indexOf(macro('sh', 'NAME')) + 1],
           nameSection(info.name, info.description),
           'both name, description');
 
-  man = manLines('text', { name: info.name });
-  t.equal(man[seek(man, macro('sh', 'NAME')) + 1],
+  man = manLines('# bla\n\ntext', { name: info.name });
+  t.equal(man[man.indexOf(macro('sh', 'NAME')) + 1],
           nameSection(info.name),
           'only name');
 
@@ -81,16 +82,6 @@ function manLines (readme, opts) {
 }
 
 
-function macro (name /* values */) {
-  var values = [].slice.call(arguments, 1)
-        .map(function (value) {
-          return ' "' + value + '"';
-        })
-        .join('');
-  return '.' + name.toUpperCase() + values;
-}
-
-
 function mainHeader (info) {
   return macro('th', (info.name || '').toUpperCase(),
                (info.section || ''), (info.date || ''),
@@ -102,18 +93,4 @@ function nameSection (name, description) {
   name = '\\fB' + info.name + '\\fR';
   description = description ? ' - ' + description : '';
   return name + description;
-}
-
-
-function seek (man, needle) {
-  if (!needle.test) {
-    needle = RegExp('^' + escapeRegExp(needle) + '$');
-  }
-
-  for (var index = 0; index < man.length; ++index) {
-    if (needle.test(man[index])) {
-      break;
-    }
-  }
-  return index;
 }
