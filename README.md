@@ -2,10 +2,12 @@
 
 # readme-to-man-page
 
-[![Dependency Status][david-badge]][david]
+[![Build Status][travis-badge]][travis] [![Dependency Status][david-badge]][david]
 
 Turn Markdown readme to a good-looking man page.
 
+[travis]: https://travis-ci.org/eush77/readme-to-man-page
+[travis-badge]: https://travis-ci.org/eush77/readme-to-man-page.svg
 [david]: https://david-dm.org/eush77/readme-to-man-page
 [david-badge]: https://david-dm.org/eush77/readme-to-man-page.png
 

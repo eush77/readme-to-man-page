@@ -4,6 +4,9 @@
   "description": "Convert package readme to a man page",
   "author": "Eugene Sharygin <eush77@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
   "files": [
     "index.js"
   ],
@@ -33,5 +36,8 @@
     "mdast-strip-badges": "^0.2.1",
     "mdast-util-to-string": "^0.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "object.assign": "^3.0.1",
+    "tape": "^4.0.3"
+  }
 }
