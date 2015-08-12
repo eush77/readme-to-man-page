@@ -4,7 +4,7 @@
 
 [![Build Status][travis-badge]][travis] [![Dependency Status][david-badge]][david]
 
-Turn Markdown readme to a good-looking man page.
+Turn Markdown readme into a good-looking man page.
 
 [travis]: https://travis-ci.org/eush77/readme-to-man-page
 [travis-badge]: https://travis-ci.org/eush77/readme-to-man-page.svg?branch=master
@@ -52,9 +52,11 @@ No option is required. But the more options are set, the more pleasing the outpu
 
 ## Related
 
+- [mdast-man] — compile Markdown to man pages (roff) with mdast.
 - [npm-man] — open any package readme from npm as a man page.
 - Use [`man-pager`][man-pager] to display a man page in the terminal programmatically.
 
+[mdast-man]: https://github.com/wooorm/mdast-man
 [npm-man]: https://github.com/eush77/npm-man
 [man-pager]: https://github.com/eush77/man-pager
 
