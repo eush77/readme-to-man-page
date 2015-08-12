@@ -55,7 +55,7 @@ Package version.
 Package description.
 </dd>
 
-<dt><code>time</code></dt>
+<dt><code>date</code></dt>
 <dd>
 Latest revision date.
 </dd>
