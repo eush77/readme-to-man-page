@@ -4,8 +4,8 @@ var mdast = require('mdast'),
     mdastFile = require('mdast/lib/file'),
     mdastMan = require('mdast-man'),
     mdastStripBadges = require('mdast-strip-badges'),
-    mdastSqueezeParagraphs = require('mdast-squeeze-paragraphs/plugin'),
-    mdastNormalizeHeadings = require('mdast-normalize-headings/plugin'),
+    mdastSqueezeParagraphs = require('mdast-squeeze-paragraphs'),
+    mdastNormalizeHeadings = require('mdast-normalize-headings'),
     mdAstToString = require('mdast-util-to-string');
 
 
