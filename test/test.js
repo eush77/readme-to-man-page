@@ -6,7 +6,7 @@ var readmeToManPage = require('..'),
 var test = require('tape'),
     assign = require('object.assign'),
     months = require('months'),
-    mdast = require('mdast');
+    remark = require('remark');
 
 var fs = require('fs');
 
@@ -35,8 +35,8 @@ test('metadata', function (t) {
 
 
 test('inferred name', function (t) {
-  var ast = mdast.parse(fs.readFileSync(__dirname + '/../README.md', 'utf8'),
-                        { position: false });
+  var ast = remark.parse(fs.readFileSync(__dirname + '/../README.md', 'utf8'),
+                         { position: false });
   ast.children.unshift({
     type: 'heading',
     depth: 1,
@@ -45,7 +45,7 @@ test('inferred name', function (t) {
       value: 'module'
     }]
   });
-  var readme = mdast.stringify(mdast.run(ast));
+  var readme = remark.stringify(remark.run(ast));
 
   t.deepEqual(manLines(readme), manLines(readme, { name: 'module' }),
               'name inferred from headings');
