@@ -39,7 +39,9 @@
     "remark-man": "^2.0.1",
     "remark-normalize-headings": "^0.3.0",
     "remark-squeeze-paragraphs": "^3.0.0",
-    "remark-strip-badges": "^2.0.0"
+    "remark-strip-badges": "^2.0.0",
+    "unist-util-remove": "^0.1.0",
+    "unist-util-select": "^1.0.0"
   },
   "devDependencies": {
     "months": "^1.0.0",

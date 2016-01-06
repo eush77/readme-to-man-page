@@ -1,6 +1,7 @@
 'use strict';
 
-var inferProps = require('./lib/infer-props'),
+var stripImages = require('./lib/strip-images'),
+    inferProps = require('./lib/infer-props'),
     createDescriptionSection = require('./lib/create-description-section'),
     postprocess = require('./lib/postprocess');
 
@@ -16,6 +17,7 @@ module.exports = function (readme, opts) {
 
   var manPage = remark()
         .use(stripBadges)
+        .use(stripImages)
         .use(squeezeParagraphs)
         .use(normalizeHeadings)
         .use(inferProps, { props: opts })

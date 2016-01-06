@@ -106,6 +106,26 @@ test('section DESCRIPTION', function (t) {
 });
 
 
+test('content', function (t) {
+  var man = manLines([
+    '# module\n\n',
+    '![some image](http://address "title")\n\n',
+    '[![alt](http://address "title")](http://address)\n\n',
+    'text'
+  ].join(''));
+
+  var index = man.indexOf(macro('sh', 'NAME')) + 1;
+  t.deepEqual(man.slice(index, index + 4), [
+    nameSection(info.name),
+    macro('sh', 'DESCRIPTION'),
+    macro('p'),
+    'text'
+  ], 'strips images');
+
+  t.end();
+});
+
+
 function manLines (readme, opts) {
   return readmeToManPage(readme, opts)
     .split('\n')
