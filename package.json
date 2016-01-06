@@ -17,9 +17,7 @@
     "url": "https://github.com/eush77/readme-to-man-page/issues"
   },
   "keywords": [
-    "conversion",
     "convert",
-    "groff",
     "help",
     "man",
     "manpage",
@@ -29,7 +27,6 @@
     "page",
     "readme",
     "render",
-    "roff",
     "troff",
     "unix"
   ],

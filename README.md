@@ -4,7 +4,11 @@
 
 [![Build Status][travis-badge]][travis] [![Dependency Status][david-badge]][david]
 
-Turn Markdown readme into a good-looking man page.
+Turn Markdown README into a good-looking man page.
+
+Bells and whistles on top of the excellent [remark-man] by [@wooorm].
+
+[@wooorm]: https://github.com/wooorm
 
 [travis]: https://travis-ci.org/eush77/readme-to-man-page
 [travis-badge]: https://travis-ci.org/eush77/readme-to-man-page.svg?branch=master
@@ -31,7 +35,7 @@ readmeToManPage(readme, {
 
 ### `readmeToManPage(readme, [opts])`
 
-Returns man page as a string marked up in roff.
+Returns man page as a string.
 
 #### `readme`
 
@@ -52,11 +56,12 @@ No option is required. But the more options are set, the more pleasing the outpu
 
 ## Related
 
-- [mdast-man] — compile Markdown to man pages (roff) with mdast.
+- [remark-man] — compile Markdown to man pages with [remark].
 - [npm-man] — open any package readme from npm as a man page.
-- Use [`man-pager`][man-pager] to display a man page in the terminal programmatically.
+- [man-pager] — display a man page in the terminal programmatically.
 
-[mdast-man]: https://github.com/wooorm/mdast-man
+[remark]: https://github.com/wooorm/remark
+[remark-man]: https://github.com/wooorm/remark-man
 [npm-man]: https://github.com/eush77/npm-man
 [man-pager]: https://github.com/eush77/man-pager
 
