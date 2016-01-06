@@ -4,23 +4,23 @@ var inferProps = require('./lib/infer-props'),
     createDescriptionSection = require('./lib/create-description-section'),
     postprocess = require('./lib/postprocess');
 
-var mdast = require('mdast'),
-    stripBadges = require('mdast-strip-badges'),
-    squeezeParagraphs = require('mdast-squeeze-paragraphs'),
-    normalizeHeadings = require('mdast-normalize-headings'),
-    mdastMan = require('mdast-man');
+var remark = require('remark'),
+    stripBadges = require('remark-strip-badges'),
+    squeezeParagraphs = require('remark-squeeze-paragraphs'),
+    normalizeHeadings = require('remark-normalize-headings'),
+    manCompiler = require('remark-man');
 
 
 module.exports = function (readme, opts) {
   opts = opts || {};
 
-  var manPage = mdast()
+  var manPage = remark()
         .use(stripBadges)
         .use(squeezeParagraphs)
         .use(normalizeHeadings)
         .use(inferProps, { props: opts })
         .use(createDescriptionSection, { skippedTypes: ['definition', 'html'] })
-        .use(mdastMan, opts)
+        .use(manCompiler, opts)
         .process(readme);
 
   return postprocess(manPage, opts);
